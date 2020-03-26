@@ -63,7 +63,7 @@ class BaseMdPages extends BaseController
 
         $params['is_file'] = $is_file;
 
-        return app_view('Denis303\MdPages\Views\view', $params);
+        return app_view('Denis303\MdPages\view', $params);
     }
 
 }
