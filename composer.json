@@ -1,0 +1,13 @@
+{
+    "name": "denis303/md-pages",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Denis303\\MdPages\\" : ""
+        }
+    },
+    "require": {
+        "denis303/codeigniter4-markdown": "*",
+        "denis303/codeigniter4-nested-views": "*"
+    }
+}
