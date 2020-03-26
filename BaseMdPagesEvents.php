@@ -1,14 +1,15 @@
 <?php
 
-namespace Modules\Docs;
+namespace Denis303\MdPages;
 
-use Modules\Docs\Events\DocsRenderEvent;
+use Denis303\MdPages\Events\MdPagesRenderEvent;
 use Michelf\MarkdownExtra;
+use DOMDocument;
 
-class DocsEvents extends \CodeIgniter\Events\Events
+class BaseMdPagesEvents extends \CodeIgniter\Events\Events
 {
 
-    const EVENT_RENDER = 'ba:docs_render';
+    const EVENT_RENDER = 'md-pages-render';
 
     public static function onRender($callback)
     {
@@ -17,9 +18,9 @@ class DocsEvents extends \CodeIgniter\Events\Events
 
     public static function render($content, &$params = [])
     {
-        $event = new DocsRenderEvent;
+        $event = new MdPagesRenderEvent;
 
-        $event->params = $params;
+        $event->params = (array) $params;
 
         $event->content = $content;
 
@@ -33,11 +34,15 @@ class DocsEvents extends \CodeIgniter\Events\Events
     
         if (!array_key_exists('title', $params))
         {
-            $html = str_get_html($content);
+            $dom = new DOMDocument;
 
-            foreach($html->find('h1') as $element)
+            $dom->loadHTML($content);
+            
+            $headers = $dom->getElementsByTagName('h1');
+
+            foreach($headers as $header)
             {
-                $params['title'] = $element->plaintext;
+                $params['title'] = $header->nodeValue;
 
                 break;
             }

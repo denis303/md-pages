@@ -6,7 +6,7 @@ use Denis303\MdPages\Config\MdPages as MdPagesConfig;
 use Denis303\MdPages\MdPagesEvents;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class MdPages extends BaseController
+class BaseMdPages extends BaseController
 { 
 
     protected function findFile(array $segments) : string
@@ -19,7 +19,9 @@ class MdPages extends BaseController
 
         $path = $config->basePath;
 
-        $filename = $path . '/' . implode('/', $segments);
+        $filename = ROOTPATH . $path . '/' . implode('/', $segments);
+
+        return $filename;
     }
 
     public function index()
@@ -52,6 +54,8 @@ class MdPages extends BaseController
         }
 
         $content = file_get_contents($filename);
+
+        $param = [];
 
         $params['content'] = MdPagesEvents::render($content, $params);
 
